@@ -1,11 +1,13 @@
 import pandas as pd
+import torch
 
-df = pd.read_excel('./data/clean_data_with_resilience.xlsx')
+from tools import load_data
 
-# 拿到最后一列数据
-y = df.iloc[:, -1].values.reshape(-1, 1)
+X_train, X_test, Y_train, Y_test = load_data()
 
-# 从小到大排序输出
-print("排序前：", y)
-y.sort()
-print("排序后：", y)
+print(X_train.shape, Y_train.shape)
+
+weights = torch.load('ga_optimized_weights.pth')
+
+for name, param in weights.items():
+    print(f"参数名: {name}, 数据类型: {param.dtype}, 形状: {param.shape}")
